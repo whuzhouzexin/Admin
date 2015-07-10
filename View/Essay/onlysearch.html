@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<title>小群你真好</title>
+<meta name="description" content="">
+<meta name="keywords" content="">
+<script type="text/javascript" src="__PUBLIC__/js/jquery-2.0.2.js"></script>
+<script type="text/javascript">
+    $(function(){
+        
+       $("#content").focus(function(){   
+             $(this).bind("keyup", function(){
+                   var content=$(this).val();
+                   var url="{:U('Essay/search')}"+"?content="+content;
+                   $.get(url,function(data){
+                        var show_search_dom=$('.result');
+                        if (data==null) {
+                             show_search_dom.text('');
+                             show_search_dom.text("没有找到符合的内容");
+                        }else{
+                            show_search_dom.text('');
+                            var str='';
+                            var serchshow="{:U('Essay/getessay')}";
+                            $.each(data,function(k,v){
+
+                               var id=v.id;
+                               var title=v.title;
+                               var rediret=serchshow+"?id="+id;
+                               str+='<a  class="essay-a" href='+rediret+'>'+title+'</a>'
+
+                            });
+
+                           show_search_dom.html(str);
+
+                        }
+                   });
+             });
+       });
+
+    });
+</script>
+<link href="" rel="stylesheet">
+<style type="text/css">
+    *{
+    	margin: 0px;
+    	padding: 0px;
+    }
+    body{
+        font-family: "微软雅黑";
+    }
+  .nav{
+
+    width: 980px;
+    height: 100%;
+    margin: 0 auto;
+  }
+  .header{
+    width: 100%;
+    height:52px;
+    box-shadow: 4px 4px 4px #456;
+    background-color: #f8f8f8;
+    border-color: #e7e7e7;
+  }
+  ul,li{
+    list-style: none;
+
+  }
+  ul{
+    float: left;
+  }
+  ul li{
+    float: left;
+    height: 50px;
+    line-height: 50px;
+   
+    width: 120px;
+
+  }
+  ul:after{
+    clear: both;
+  }
+  ul li:first-child{
+    margin-left: 100px;
+  }
+  ul li a{
+    display: block;
+    width: 100%;
+    height: 100%;
+    text-decoration:none;
+    color: #333;
+    text-align: center;
+    font-size: 16px;
+  }
+   ul li a:hover{
+    background: #e7e7e7;
+   }
+   .form{
+     float: left;
+     margin-left:30px;
+     width: auto;
+     height: 52px;
+
+   }
+   .form form input{
+    width: 240px;
+   }
+   .form form input,.form form div{
+      float: left;
+     
+      height:34px;
+      border-radius: 8px;
+      margin: 9px 0px;
+      border: 0px;
+      background: rgba(255,255,255,.9);
+
+   }
+   .form form div{
+      width: 80px;
+      border-radius: 0px;
+      background: none;
+      line-height: 34px;
+      text-align: center;
+      cursor: pointer;
+   }
+   .result{
+        position: absolute;
+        height: auto;
+        width: 240px;
+        padding: 0px;
+        margin: 52px 0px;
+     
+   }
+   .essay-a{
+    display: block;
+    width: 100%;
+    height: 34px;
+    line-height: 34px;
+    text-align: left;
+    color:red;
+   }
+</style>
+</head>
+<body>
+   <div class="header">
+         <div class="nav">
+             <ul>
+                 <li><a href="{:U('Essay/index')}">看书</a></li>
+
+             </ul>
+             <div class="form">
+                 <form>
+                     <input  type="text" name="content" id="content" />
+                     <div id="search-btn">查询</div>
+                   
+                 </form>
+                 <div class="result"></div>
+             </div>
+         </div>
+   </div>
+</body>
+</html>

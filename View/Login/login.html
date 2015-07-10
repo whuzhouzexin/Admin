@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<title>小群你真好</title>
+<meta name="description" content="">
+<meta name="keywords" content="">
+<link href="" rel="stylesheet">
+<style type="text/css">
+	body{
+		margin:0px;
+		padding: 0px;
+	}
+	form{
+		position: absolute;
+		left: 50%;
+		top:50%;
+		margin:-150px 0px 0px -150px;
+		width: 399px;
+		height: 299px;
+		padding: 0px;
+       
+		border: 1px solid #ccc;
+        border-radius: 4px;
+	}
+
+	form div label,input{
+		float: left;
+
+	}
+	form div{
+		clear: both;
+      
+	}
+    form div label {
+    	width: 100px;
+    	height: 34px;
+    	line-height: 34px;
+    	text-align: right;
+    	padding-right: 3px;
+    	margin: 0px;
+        float: left;
+        color: #000;
+        font-weight: 800;
+    }
+    form div input{
+    	width: 180px;
+    	height: 30px;
+    	border: 1px solid #ccc;
+    	padding: 0px;
+    	margin: 0px;
+    	background: rgba(255,255,255,0.8);
+        border-radius: 4px;
+        margin-bottom: 15px;
+    }
+
+    @keyframes move{
+      0%{
+          transform:translate(0px,10px);
+       -ms-transform:translate(0px,10px); /* IE 9 */
+       -moz-transform:translate(0px,10px);     /* Firefox */
+       -webkit-transform:translate(0px,10px);/* Safari 和 Chrome */
+       -o-transform:translate(0px,10px);   /* Opera */
+      }
+        50%{
+          transform:translate(0px,5px);
+       -ms-transform:translate(0px,5px); /* IE 9 */
+       -moz-transform:translate(0px,5px);     /* Firefox */
+       -webkit-transform:translate(0px,5px);/* Safari 和 Chrome */
+       -o-transform:translate(0px,5px);   /* Opera */
+      }
+       100%{
+          transform:translate(0px,0px);
+       -ms-transform:translate(0px,0px); /* IE 9 */
+       -moz-transform:translate(0px,0px);     /* Firefox */
+       -webkit-transform:translate(0px,0px);/* Safari 和 Chrome */
+       -o-transform:translate(0px,0px);   /* Opera */
+      }
+     
+    }
+    
+    form .btn{
+    	width: 86px;
+    	height: 32px;
+    	
+    	line-height: 32px;
+    	text-align: center;
+    	font-size: 16px;
+    	border-radius: 4px;
+    	border: 1px solid #ccc;
+        margin-left: 100px;
+        cursor: pointer;
+        -webkit-animation: move  3s linear;
+        -o-animation: move  3s linear ;
+        animation: move  3s linear ;
+    }
+   
+    .clear{
+        clear: both;
+    }
+
+    form div .image{
+        width: 90px;
+
+    }
+    .btn:hover{
+        transition:3s;
+        font-size: 12px;
+        -webkit-animation: move  3s linear;
+        -o-animation: move  3s linear ;
+        animation: move  3s linear ;
+
+    }
+    #tip{
+        margin-top: 60px;
+        width: 260px;
+        margin-left: 100px;
+        line-height: 30px;
+        font-size:12px;
+        height: 30px;
+        color:red;
+        font-weight: 900;
+
+    }
+  
+</style>
+</head>
+<body>
+
+     <form>
+        <div id="tip">
+            
+        </div>
+     	<div >
+     		<label>用户名:</label>
+     		<input type='text' value="" placeholder="    用户名" id="username" />
+            <div class="clear"></div>
+     	</div>
+     	<div>
+     	    <label>密码：</label>
+     		<input type='password' value="" placeholder="    密码" id="pass" >
+            <div class="clear"></div>
+     	</div>
+        <div>
+            <label>验证码：</label>
+            <input type='text' value="" class="image" id="vertify" placeholder="  验证码">&nbsp;
+            <image src="{:U('Login/vertify')}"  style="cursor:pointer"  id="vertif"/>
+            <div class="clear"></div>
+        </div>
+     	
+     	<div class="btn" id="btn">
+     		  登录
+     	</div>
+     </form>
+    <script type="text/javascript">
+    +(function(){
+
+        function getId(id){
+            return document.getElementById(id);
+        }
+
+        var dom=getId('vertif');
+
+
+        // dom.onclick=function(){
+
+            
+        // }
+        function changeVertify(){
+            var date1=new Date();
+            var senconds=date1.getSeconds();
+            dom.src="{:U('Login/vertify')}"+"?date="+senconds;
+           
+
+        }
+        if(dom.addEventListener){
+            dom.addEventListener("click",changeVertify,false); 
+        }else{
+            dom.attachEvent("onclick",changeVertify);
+        };
+
+        var btn=getId('btn');
+        var username=getId('username');
+        var passworld=getId('pass');
+        var vertify=getId('vertify');
+        var tip=getId('tip');
+        var xhr=null;
+        function submit(){
+
+                    tip.innerHTML='';
+                    var user=username.value;
+                    var pass=passworld.value;
+                    var vet=vertify.value;
+                    if(user==''||pass==''||vet==''){
+                         
+                         tip.innerHTML='用户名或密码、验证码、存在空值';
+                         return false;
+
+                    }
+                    
+                    else{
+
+                        try{
+
+                           xhr=new XMLHttpRequest();
+
+
+                        }catch(e){
+
+                            try{
+
+                                 xhr=new ActiveXObject("Microsoft.XMLHTTP");
+
+                            }catch(e){
+
+                                alert("你的浏览器不支持XMLHTTP");
+                                
+                            }
+
+
+                           
+
+                        }
+
+                        xhr.open("POST","{:U('Login/dologin')}",true);
+                        xhr.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+                        xhr.send("username="+user+"&pass="+ pass+"&vertify="+vet);
+                        xhr.onreadystatechange=function(){
+                           if (xhr.readyState==4 &&xhr.status==200){
+
+                                    tip.innerHTML='';
+                                    console.log(xhr.responseText);
+                                    // console.log(xhr.responseText);
+                                    if(xhr.responseText=='\"202\"'){
+                                          tip.innerHTML="验证码填写错误";
+                                          var date1=new Date();
+                                          var senconds=date1.getSeconds();
+                                          dom.src="{:U('Login/vertify')}"+"?date="+date;
+
+                                    }
+                                    if(xhr.responseText=='\"203\"'){
+                                         tip.innerHTML="用户名或者密码有误";
+                                    }
+                                    if(xhr.responseText=='\"250\"'){
+                                        location.href="{:U('Login/loginok')}";
+                                    }
+                                  
+
+                           }
+          }
+                    }
+
+
+
+                }
+
+        btn.onclick=submit;
+
+        document.onkeydown=function(event){
+
+            e = event ? event :(window.event ? window.event : null);
+            if(e.keyCode==13){
+                submit();
+            }
+        }
+               
+    })();
+    </script>
+</body>
+</html>

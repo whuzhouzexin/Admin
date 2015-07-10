@@ -1,0 +1,40 @@
+
+	<div class="container">
+		<div class="well  well-sm">
+			
+              <button type="button" class="btn btn-primary"><a href="{:U('Admin/index')}" >管理员列表</a></button>
+              <button type="button" class="btn btn-primary"><a href="{:U('Admin/addUser')}">添加管理员</a></button>
+
+		</div>
+
+			<table class="table table-bordered">
+			      <thead>
+			        <tr>
+			          <th>uid</th>
+			          <th>管理员名称</th>
+			          <th>管理员角色</th>
+			          <th>操作/删除</th>
+			        </tr>
+			      </thead>
+			      <tbody>
+			      	<volist id="admin" name="admin">
+
+			      		<tr>
+			      		  <th scope="row" class="userid" >{$admin.id}</th>
+			      		  <td>{$admin.username}</td>
+			      		  <td>{$admin.role_name}</td>
+			      		
+			      		  <td class="deleteadmin"  uid="{$admin.uid}" ur="{:U('Admin/deleteAdmin')}" id="{$admin.id}">删除</td>
+			      		</tr>
+			      		
+			      	</volist>
+			       
+			        
+			      </tbody>
+		    </table>
+		    <div class="page">
+		    	{$page}
+		    </div>
+
+   </div>
+   
